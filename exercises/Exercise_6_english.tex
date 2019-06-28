@@ -1,0 +1,109 @@
+% LaTeX source for textbook ``How to think like a computer scientist''
+% Copyright (C) 1999  Allen B. Downey
+% Copyright (C) 2009  Thomas Scheffler
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}\label{infloop}
+%changed the condition on the loop so that it will terminate
+%(was this *supposed* to be an infinite loop?)
+\begin{verbatim}
+    void Loop(int n) 
+    {
+        int i = n;
+        while (i > 1) 
+        {
+            printf ("%i\n",i);
+            if (i%2 == 0) 
+            {
+                i = i/2;
+            } 
+            else 
+            {
+                i = i+1;
+            }
+        }
+    }
+
+    int main (void) 
+    {
+        Loop(10);
+        return EXIT_SUCCESS;
+    }
+\end{verbatim}
+%
+\begin{enumerate}
+
+\item  Draw a table that shows the value of the variables {\tt i} and {\tt n} during the execution of the program. 
+The table should contain one column for each variable and one line for each iteration.
+
+
+\item What is the output of this program?
+
+\end{enumerate}
+\end{exercise}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{exercise}
+In Exercise~\ref{ex.power} we wrote a recursive version of {\tt
+Power()}, which takes a double {\tt x} and an integer {\tt n} and
+returns $x^n$.  Now write an iterative function to perform the same
+calculation.
+\end{exercise}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}
+Let's say you are given a number, $a$, and you want to find
+its square root.  One way to do that is to start with a very
+rough guess about the answer, $x_0$, and then improve
+the guess using the following formula:
+
+\begin{displaymath}
+x_1 = (x_0 + a/x_0) / 2
+\end{displaymath}
+
+For example, if we want to find the square root of 9, and
+we start with $x_0 = 6$, then $x_1 = (6 + 9/6) /2 = 15/4 = 3.75$,
+which is closer.
+
+We can repeat the procedure, using $x_1$ to calculate $x_2$,
+and so on.  In this case, $x_2 = 3.075$ and $x_3 = 3.00091$.
+So that is converging very quickly on the right answer (which
+is 3).
+
+Write a function called {\tt SquareRoot} that takes a {\tt double}
+as a parameter and that returns an approximation of the square
+root of the parameter, using this algorithm.  You may not use
+the {\tt sqrt()} function from the {\tt math.h} library.
+
+As your initial guess, you should use $a/2$.  Your function should
+iterate until it gets two consecutive estimates that differ by
+less than 0.0001; in other words, until the absolute value of
+$x_n - x_{n-1}$ is less than 0.0001.  You can use the built-in
+{\tt fabs()} function from the {\tt math.h} library to calculate the absolute value.
+\end{exercise}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{exercise}
+One way to evaluate $e^{-x^2}$ is to use the infinite series expansion
+
+\begin{displaymath}
+e^{-x^2} = 1 - 2x + 3x^2/2! - 4x^3/3! + 5x^4/4! - ...
+\end{displaymath}
+
+In other words, we need to add up a series of terms where the $i$th
+term is equal to $(-1)^i(i+1) x^i / i!$.  Write a function named {\tt Gauss()}
+that takes {\tt x} and {\tt n} as arguments and that returns the sum
+of the first {\tt n} terms of the series.  You should not use {\tt
+factorial()} or {\tt pow()}.
+
+\end{exercise}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

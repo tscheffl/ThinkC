@@ -1,0 +1,103 @@
+% LaTeX source for textbook ``How to think like a computer scientist''
+% Copyright (C) 1999  Allen B. Downey
+% Copyright (C) 2009  Thomas Scheffler
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}
+
+Section~\ref{Structures as parameters} defines the function {\tt PrintPoint()}. 
+The argument of this function is passed along as a value (\emph{call-by-value}).
+
+\begin{enumerate}
+\item Change the definition of this function, so that it only passes a reference to 
+the structure to the function for printing (\emph{call-by-reference}).
+
+\item Test the new function with different values and document the results. 
+\end{enumerate}
+
+
+\end{exercise}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}
+
+Write a program, that defines a struct \texttt{Person\_t}.
+This struct should contain two members. The first member should be a string
+of sufficient length, to contain the name of a person. The second member should
+be an integer value containing the persons age. 
+
+\begin{enumerate}
+\item Define two struct variables \texttt{person1} and \texttt{person2}.\\ 
+Initialize the two struct variables with suitable values. The first person
+should be called Betsy. Betsy should be 42 years old.\\
+The second person should be named after yourself and should also be as old as yourself.
+
+
+\item Write a function \texttt{PrintPerson()}. The function should take a struct variable of type
+\texttt{Person\_t} as an argument and print the name of the person and the corresponding age.
+\item Write a function \texttt{HappyBirthday()}. The function should increase the age of the 
+corresponding person by one year and print out a birthday greeting.\\
+\textbf{Hint: }You need to passes a reference to the structure to the function (\emph{call-by-reference}). 
+If your function uses \emph{call-by-value}, the age only changes in the local copy of the struct and
+the changes you have made are lost, once the function terminates. Try it out, if you do not believe me!
+\end{enumerate}
+
+
+\end{exercise}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}
+
+Most computer games can capture our interest only when their actions are
+non-predictable, otherwise they become boring quickly.
+Section~\ref{Random numbers} tells us how to generate random numbers in
+in C. 
+
+
+Write a simple game, where the computer chooses an arbitrary number in
+the range between 1 and 20. You will then be asked to guess the
+number chosen by the Computer.
+
+To give you a hint the computer should answer your guess in the following
+way: in case your guess was lower than the number of the computer, the
+output should be: \emph{My number is larger!} \\
+If you guess was higher than
+the number of the computer, the output should read: \\
+\emph{My number is smaller!}
+
+It is necessary to seed the random number generator when you start your program
+(cf. Section~\ref{Random seeds}.
+You could use the {\tt time()} function for this. It returns the actual time measured
+in seconds since 1971.
+
+\begin{verbatim}
+    srand(time(NULL));   /*Initialisation of the random number generator*/
+\end{verbatim}
+
+When you found the right answer, the computer should congratulate you. The 
+program should also display the number of tries that where needed in order
+to guess the number. 
+
+The program should also keep the a `High-Score', that gets updated once
+our number of trials is lower than any previous try.
+The High-Score (the number of minimal guesses) should be stored in a
+ {\tt struct}, together with the name of the player.
+
+The \texttt{High-Score()} function should ask for your name and store it, when 
+your current number of tries is lower than the previous High-Score value. 
+
+The program then gives you the chance to play again or stop the game by pressing
+ 'q' on the keyboard.
+
+
+
+\end{exercise}
+
+

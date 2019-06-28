@@ -1,0 +1,212 @@
+% LaTeX source for textbook ``How to think like a computer scientist''
+% Copyright (C) 2009  Thomas Scheffler
+
+
+\chapter{Coding Style}
+\section{A short guide on style}
+\index{style}
+\index{coding style}
+
+
+In the last few sections, I used the phrase ``by convention''
+several times to indicate design decisions that are arbitrary
+in the sense that there are no significant reasons to do things
+one way or another, but dictated by convention.
+
+In these cases, it is to your advantage to be familiar with
+convention and use it, since it will make your programs easier
+for others to understand.  At the same time, it is important to
+distinguish between (at least) three kinds of rules:
+
+\begin{description}
+
+\item[Divine law:]  This is my phrase to indicate a rule that
+is true because of some underlying principle of logic or
+mathematics, and that is true in any programming language
+(or other formal system).  For example, there is no way to
+specify the location and size of a bounding box using fewer
+than four pieces of information.  Another example is that adding
+integers is commutative.  That's part of the definition of
+addition and has nothing to do with C.
+
+\item[Rules of C:]  These are the syntactic and semantic
+rules of C that you cannot violate, because the
+resulting program will not compile or run.  Some are arbitrary;
+for example, the fact that the {\tt =} symbol represents
+assignment and {\em not} equality.  Others reflect
+underlying limitations of the compilation or execution process.
+For example, you have to specify the types of parameters, but
+not arguments.
+
+\item[Style and convention:]  There are a lot of rules that
+are not enforced by the compiler, but that are essential for
+writing programs that are correct, that you can debug and
+modify, and that others can read.  Examples include indentation
+and the placement of squiggly braces, as well as conventions
+for naming variables, functions and types.
+
+\end{description}
+
+In this section I will briefly summarize the coding style used within
+this book. It follows loosely the "Nasa C Style Guide" 
+\footnote{www.scribd.com/doc/6878959/NASA-C-programming-guide}
+and its main
+intent is on readability rather than saving space or typing effort.
+
+%/ref 
+Since C has such a long history of usage, many 
+different coding styles have been developed and used. It is important
+that you can read them and follow one particular scheme in all
+your code. This makes it much more accessible should you find
+yourself in a position where you have to share your work with other 
+people or have to access code written by your younger self - many years ago...
+
+\section{Naming conventions and capitalization rules}
+
+As a general rule, you should always choose meaningful names for 
+your identifiers. Ideally the name of a variable or function already explains
+its behaviour or use.
+
+It may be more typing effort to use a function named  {\tt FindSubString()} 
+rather than  {\tt FndSStr()}. However, the former is almost self describing 
+and might save you a lot in debugging-time.   
+
+\textbf{Don't use single letter variable names!}
+
+Similarly to functions, you should give your variables names that
+speak for themselves and make clear what values will be stored
+by this variable.
+There are few noticeable exceptions to this rule:
+People use {\tt i}, {\tt j} and {\tt k} as counter variables in loops and
+for spacial coordinates people use {\tt x}, {\tt y} and {\tt z}.
+Use these conventions if they suit you. Don't try to invent new
+conventions all by yourself.
+
+
+The following capitalization style shold be used for the different elements in your
+program. The consistent use of one style gives the programmer and the reader
+of the source code a quick way to determine the meaning of different items
+in your program:
+
+
+\begin{description}
+\item[variableNames: ] variable names always start with lower-case, multiple 
+words are separated by capitalizing the first letter. 
+\item[CONSTANTS: ] use all upper case letters. In order to avoid name space
+collisions it might be necessary to use a prefix such as {\tt MY\_CONSTANT}.
+\item[FunctionNames:] start always with upper case and should possibly 
+contain a verb describing the function. Names for functions that test values should 
+start with '{\tt Is}' or '{\tt Are}'.  
+\item[UserDefinedTypes\_t:] always end in '{\tt \_t}'. Type names names must be 
+capitalised in order to avoid conflict with POSIX names.
+\item[pointerNames\_p:] in order to visually separate pointer variables from
+ordinary variables you should consider ending pointers with '{\tt \_p}'.
+\end{description}
+
+%%
+\section{Bracing style}
+
+There exist different bracing or indent styles that serve the goal
+to make your code more readable through the use of a consistent 
+indentation for control block structures.
+The styles differ in the way the braces are indented with the rest
+of the control block.
+This book uses the BSD/Allman Style because its is the most 
+readable of the four. It needs more horizontal space than the K\&R Style
+but it makes it very easy to track opening and closing braces.
+
+When you are writing programs, make sure that you are using one
+style consistently. In larger projects all contributors should agree
+on the style they are using. Modern programming environments like
+Eclipse support you through the automatic enforcement of a single style.
+
+\begin{verbatim}
+/*Whitesmiths Style*/
+   if (condition)            
+       {
+       statement1; 
+       statement2;
+       }
+\end{verbatim}
+
+Is named after Whitesmiths C, an early commercial C compiler that 
+used this style in its examples. Some people refer to it as the 
+One True Brace Style.
+
+\begin{verbatim}
+
+/*GNU Style*/
+   if (condition)
+     {
+       statement1;
+       statement2;
+     }
+\end{verbatim}
+
+Indents are always four spaces per level, with the braces halfway between the outer and inner indent levels.
+
+\begin{verbatim}
+
+/*K&R/Kernel Style*/
+   if (condition) {
+       statement1;
+       statement2;
+   }
+\end{verbatim}
+
+This style is named after the programming examples in the book
+\emph{The C Programming Language} by Brian W. Kernighan and 
+Dennis Ritchie (the C inventors). 
+
+The K\&R style is the style that is hardest to read. 
+The opening brace happens to be at the far right side of the control statement
+and can be hard to find. The braces therefore have different indentation levels.
+Nevertheless, many C programs use this style. So you should be able 
+to read it.
+
+\begin{verbatim}
+
+/*BSD/Allman Style*/
+   if (condition)
+   {
+       statement1;
+       statement2;
+   }
+\end{verbatim}
+
+This style is used for all the examples in this book.
+
+\section{Layout}
+
+Block comments should be used at the top of your file, before all
+function declarations, to explain the purpose of the program and give additional
+information.
+
+You should also use a similar documentation style before every 
+relevant function in your program.
+\begin{verbatim}
+
+/*
+ * File:     test.c
+ * Author:   Peter Programmer
+ * Date:     May, 29th, 2009
+ *
+ * Purpose: to demonstrate good programming
+ *          practise
+ * /
+
+#include <stdlib.h>
+
+/*
+ * main function, does not use arguments
+ */
+
+int main (void)
+{
+    return EXIT_SUCCESS;
+}
+ 
+\end{verbatim}
+
+
+

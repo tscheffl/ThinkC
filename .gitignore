@@ -1,0 +1,8 @@
+.svn
+*.log
+*.out
+*.toc
+*.aux
+*.idx
+*.DS_Store
+/takeouts

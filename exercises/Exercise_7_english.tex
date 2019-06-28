@@ -1,0 +1,71 @@
+% LaTeX source for textbook ``How to think like a computer scientist''
+% Copyright (C) 1999  Allen B. Downey
+% Copyright (C) 2009  Thomas Scheffler
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{exercise}
+
+A friend of yours shows you the following method and
+explains that if {\tt number} is any two-digit number, the program
+will output the number backwards.  He claims that if {\tt number} is
+17, the method will output {\tt 71}.
+
+Is he right?  If not, explain what the program actually does and
+modify it so that it does the right thing.
+
+\begin{verbatim}
+   #include <stdio.h>
+   #include<stdlib.h>
+   
+   int main (void)
+   {
+     int number = 71;
+     int lastDigit = number%10;
+     int firstDigit = number/10;
+     printf("%i",lastDigit + firstDigit);
+     return EXIT_SUCCESS;
+  }
+
+\end{verbatim}
+
+\end{exercise}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{exercise}
+Write a function that takes an array of integers, the length of the array and an integer named
+{\tt target} as arguments. 
+
+The function should search through the provided array and should return the first index where
+{\tt target} appears in the array, if it does. If {\tt target} is not in the array the function should 
+return an invalid index value to indicate an error condition  (e.g.  -1).
+\end{exercise}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}
+
+One not-very-efficient way to sort the elements of an array
+is to find the largest element and swap it with the first
+element, then find the second-largest element and swap it with
+the second, and so on.
+
+\begin{enumerate}
+
+\item Write a function called {\tt IndexOfMaxInRange()} that 
+takes an array of integers, finds the
+largest element in the given range, and returns its {\em index}.
+
+\item Write a function called {\tt SwapElement()} that takes an
+array of integers and two indices, and that swaps the elements
+at the given indices.
+
+\item Write a function called {\tt SortArray()} that takes an array of
+integers and that uses {\tt IndexOfMaxInRange()} and {\tt SwapElement()}
+to sort the array from largest to smallest.
+
+\end{enumerate}
+\end{exercise}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

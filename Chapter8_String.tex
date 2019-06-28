@@ -1,0 +1,949 @@
+% LaTeX source for textbook ``How to think like a computer scientist''
+% Copyright (C) 1999  Allen B. Downey
+% Copyright (C) 2009  Thomas Scheffler
+
+
+\selectlanguage{english}
+\chapter{Strings and things}
+\label{strings}
+
+\section{Containers for strings}
+
+We have seen four types of values---characters, integers,
+floating-point numbers and strings---but only three types of
+variables---{\tt char}, {\tt int} and {\tt double}.  So
+far we have no way to store a string in a variable or perform
+operations on strings.
+
+This chapter is going to rectify this situation and I can now tell
+you that strings in C are stored as an array of characters terminated by the 
+character {\tt \textbackslash 0}.
+
+By now this explanation should make sense to you and you probably understand
+why we had to learn quite a bit about the working of the language 
+before we could turn our attention towards string variables.
+
+\index{<string.h>}
+\index{header file!string.h}
+In the previous chapter we have seen that operations on arrays have 
+only minimal support from the C language itself and we had
+to program extra functions by ourselves.
+Fortunately things are a little bit easier when we manipulate
+these special types of arrays - called strings.  There exist a number of
+library functions in {\tt string.h} that make string handling a bit easier
+than operations on pure arrays. 
+
+Nevertheless string operations in 
+C are still a lot more cumbersome than their equivalence in other
+programing languages and can be a 
+potential source of errors in your programs, if not handled 
+carefully.
+
+\section{String variables}
+
+You can create a string variable as an array of characters in the following
+way:
+
+\begin{verbatim}
+    char first[] = "Hello, ";
+    char second[] = "world.";
+\end{verbatim}
+%
+The first line creates an {\tt string} and assigns it the string value {\tt "Hello."}
+In the second line we declare a second string variable. Remember,
+the combined declaration and assignment is called initialization.
+
+Initialisation time is the only time you can assign a value to a string directly (just as with
+arrays in general). The initialisation parameters are passed 
+in the form of a string constant enclosed in quotation marks ({\tt"}\ldots {\tt"}).
+
+Notice the difference in syntax for the initialisation of arrays and strings. 
+If you like you can also initialize the string in the normal array syntax, 
+although this looks a little odd and is not very convenient to type.  
+
+\begin{verbatim}
+    char first[] = {'H','e','l','l','o',',',' ','\0'};
+\end{verbatim}
+
+There is no need to supply an array size when you are initialising the 
+string variable at declaration time. The compiler compute the necessary
+array size to store the supplied string.
+
+Remember what we said about the nature of a string variable. It is an array of
+characters \textbf{plus} a marker that shows where our string ends: the 
+termination character  {\tt \textbackslash 0}.
+
+Normally you do not have to supply this termination character.
+The compiler understands our code and insertes it automatically.
+However, in the example above, we treated our string exactly
+like an array and in this case we have to insert the termination character ourselves.
+
+When we are using a string variable to store different sting values 
+during the lifetime of our program we have to declare a size big enough
+for the largest sequence of characters that we are going to store.
+We also have to make our string variable exactly one character longer than
+the text we are going to store, because of the necessary termination character. 
+
+We can output strings in the usual way using the {\tt printf()} function:
+
+\begin{verbatim}
+    printf("%s", first);
+\end{verbatim}
+
+
+
+%%
+\section{Extracting characters from a string}
+
+Strings are called ``strings'' because they are made up of a sequence,
+or string, of characters.  The first operation we are going to
+perform on a string is to extract one of the characters.  C
+uses an index in square brackets ({\tt [} and {\tt ]}) for this operation:
+
+\begin{verbatim}
+    char fruit[] = "banana";
+    char letter = fruit[1];
+    printf ("%c\n", letter);
+\end{verbatim}
+%
+The expression {\tt fruit[1]} indicates that I want character number 1
+from the string named {\tt fruit}.  The result is stored in a {\tt
+char} named {\tt letter}.  When I output the value of {\tt letter}, I
+get a surprise:
+
+\begin{verbatim}
+   a
+\end{verbatim}
+%
+{\tt a} is not the first letter of {\tt "banana"}.  Unless you are a
+computer scientist.  For perverse reasons, computer scientists always
+start counting from zero.  The 0th letter (``zeroeth'') of {\tt
+"banana"} is {\tt b}.  The 1th letter (``oneth'') is {\tt a} and the
+2th (``twoeth'') letter is {\tt n}.
+
+If you want the zereoth letter of a string, you have to put
+zero in the square brackets:
+
+\begin{verbatim}
+    char letter = fruit[0];
+\end{verbatim}
+
+\section{Length}
+\index{string!length}
+\index{length!string}
+\index{<string.h>}
+\index{header file!string.h}
+
+To find the length of a string (the number of characters this string contains), we can
+use the {\tt strlen()} function.  The function is called using the string variable
+as an argument:
+
+\begin{verbatim}
+    #include <string.h>
+    int main(void)
+    { 
+       int length;
+       char fruit[] = "banana"; 
+
+       length = strlen(fruit);
+       return EXIT_SUCCESS;
+    }   
+\end{verbatim}
+%
+The return value of {\tt strlen()} in this case is 6. We assign this value to the integer
+ {\tt length}  for further use.  
+
+In order to compile this code, you need to include the
+header file for the {\tt string.h} library. This library provides a number of
+useful functions for operations on strings. 
+%The type of the {\tt strlen()} is {\tt size_t}, an unsigned value large enough to
+%enumerate any object that the system can handle (such as a string).
+%for our example we can safely assume that the size of the string object 
+%in our example will never
+%exceed the range of the integer type. 
+You should familiarize yourself with these functions because they can 
+help you to solve your programming problems faster.
+
+
+%Notice
+%that it is legal to have a variable with the same name as a function.
+
+To find the last letter of a string, you might be tempted to
+try something like
+
+\begin{verbatim}
+    int length = strlen(fruit);
+    char last = fruit[length];       /* WRONG!! */
+\end{verbatim}
+%
+That won't work.  The reason is that  {\tt fruit} is still an array and there is no letter
+at the array index  {\tt fruit[6]} in {\tt "banana"}.  Since we started counting at 0, the 6
+letters are numbered from 0 to 5.  To get the last character,
+you have to subtract 1 from {\tt length}.
+
+\begin{verbatim}
+    int length = strlen(fruit);
+    char last = fruit[length-1];
+\end{verbatim}
+
+\section{Traversal}
+\index{traverse}
+
+A common thing to do with a string is
+start at the beginning, select each character in turn, do
+something to it, and continue until the end.  This pattern
+of processing is called a {\bf traversal}.  A natural
+way to encode a traversal is with a {\tt while} statement:
+
+\begin{verbatim}
+    int index = 0;
+    while (index < strlen(fruit)) 
+    {
+        char letter = fruit[index];
+        printf("%c\n" , letter);
+        index = index + 1;
+    }
+\end{verbatim}
+%
+This loop traverses the string and outputs each letter on
+a line by itself.  Notice that the condition is
+{\tt index < strlen(fruit)}, which means that when
+{\tt index} is equal to the length of the string, the
+condition is false and the body of the loop is not executed.
+The last character we access is the one with the
+index {\tt strlen(fruit)-1}.
+
+\index{loop variable}
+\index{variable!loop}
+\index{index}
+
+The name of the loop variable is {\tt index}.  An {\bf
+index} is a variable or value used to specify one member of an ordered
+set, in this case the set of characters in the string.  The index
+indicates (hence the name) which one you want.  The set has to be
+ordered so that each letter has an index and each index
+refers to a single character.
+
+As an exercise, write a function that takes a {\tt string}
+as an argument and that outputs the letters backwards, all on
+one line.
+
+%\section{A run-time error}
+%\index{error!run-time}
+%\index{run-time error}
+
+%Way back in Section~\ref{run-time} I talked about run-time errors,
+%which are errors that don't appear until a program has started
+%running.
+
+%So far, you probably haven't seen many run-time errors, because we
+%haven't been doing many things that can cause one.  Well, now we are.
+%If you use the {\tt []} operator and you provide an index that is
+%negative or greater than {\tt length-1}, you will get a run-time
+%error and a message something like this:
+
+%\begin{verbatim}
+%index out of range: 6, string: banana
+%\end{verbatim}
+%%
+%Try it in your development environment and see how it looks.
+
+
+%%
+\section{Finding a  {\tt character} in a {\tt string}}
+\label{Finding a  character in a string}
+
+If we are looking for a letter in a {\tt string}, we have to search 
+through the string and detect the position where this
+letter occurs in the string.
+Here is an implementation of this function:
+
+\begin{verbatim}
+    int LocateCharacter(char *s, char c)
+    {
+        int i = 0;
+        while (i < strlen(s)) 
+        {
+            if (s[i] == c) return i;
+            i = i + 1;
+        }
+        return -1;
+    }
+\end{verbatim}
+
+We have to pass the {\tt string}
+as the first argument, the other argument is the character
+we are looking for. Our function returns the index of the first
+occurrence of the letter, or {\tt -1} if the letter is not contained
+in the string.
+
+
+%%
+\section{Pointers and Addresses}
+\label{Pointers and Addresses}
+\index{pointer}
+\index{address}
+
+When we look at the definition of the {\tt LocateCharacter()} function
+you may notice the following construct {\tt char *s} which looks unfamiliar.
+
+Remember, when we discussed how we had to pass
+an array to a function, back in Section~\ref{Passing an array to a function},
+we said that instead of copying the array, we only pass a reference to the function. 
+Back then, we did not say exactly what this reference was.
+
+
+
+C is one of the very few high-level programming languages that
+let you directly manipulate objects in the computer memory.
+In order to do this direct manipulation, we need to know the location 
+of the object in memory: it's address. 
+Adresses can be stored in variables of a special type.
+These variables that point to other objects in memory 
+(such as variables, arrays and strings) 
+are therefore called {\bf pointer} variables. 
+
+A pointer references the memory location of an object
+and can be defined like this:
+
+\begin{verbatim}
+    int *i_p;
+\end{verbatim}
+
+This declaration looks similar to our earlier declarations, with one difference: the asterisk
+in front of the name. 
+We have given this pointer the type {\tt int}. The type specification has nothing to do
+with the pointer itself, but rather defines which object this pointer is
+supposed to reference (in this case an {\tt integer}).
+This allows the compiler to do some type checking on, what would
+otherwise be, an anonymous reference.
+  
+A pointer all by itself is rather meaningless, we also need an object that
+this pointer is referencing:
+
+\begin{verbatim}
+    int number = 5; 
+    int *i_p;
+\end{verbatim}
+ 
+This code-fragment defines an {\tt int} variable and a pointer. We can use 
+ the "address-of" operator~{\tt \&} to assign  the memory 
+ location or {\bf address} of our variable to the pointer.
+ 
+ \begin{verbatim}
+    i_p = &number;
+\end{verbatim}
+
+%{\tt}
+Pointer {\tt i\_p} now references integer variable {\tt number}.
+We can verify this using the "content-of" operator~{\tt *}.
+
+ \begin{verbatim}
+    printf("%i\n", *i_p);
+\end{verbatim}
+
+This prints {\tt 5}, which happens to be the content of the 
+memory location at our pointer reference. 
+
+With pointers we can directly manipulate memory locations:
+
+ \begin{verbatim}
+    *i_p = *i_p + 2;
+    printf("%i\n", number);
+\end{verbatim}
+
+Our variable {\tt number} now has the value {\tt 7} and we begin to 
+understand how our {\tt LocateCharacter()} function can directly access 
+the values of string variables through the use of a {\tt char} pointer.
+
+Pointers are widely used in many C programs and we have only
+touched the surface of the topic. They can be immensely useful 
+and efficient, however they can also be a potential source of
+problems when not used appropriately. For this reason not
+many programming languages support direct memory manipulation.
+ 
+
+%If we are looking for a letter in an {\tt string}, we may
+%not want to start at the beginning of the string.  One way
+%to generalize the {\tt find} function is to write a version
+%that takes an additional parameter---the index where we should
+%start looking.  Here is an implementation of this function.
+
+%\begin{verbatim}
+%    int Find (char *s, char c, int i)
+%    {
+%        while (i < strlen(s)) 
+%        {
+%            if (s[i] == c) return i;
+%            i = i + 1;
+%        }
+%        return -1;
+%    }
+%\end{verbatim}
+%
+%We have to pass the {\tt string}
+%as the first argument.  The other arguments are the character
+%we are looking for and the index where we should start.
+
+
+
+%%
+%\section{Looping and counting}
+%\label{loopcount}
+%\index{traverse!counting}
+%\index{loop!counting}
+
+%The following program counts the
+%number of times the letter {\tt 'a'} appears in a string:
+
+%\begin{verbatim}
+%    char fruit[] = "banana";
+%    int length = strlen(fruit);
+%    int count = 0;
+
+%    int index = 0;
+%    while (index < length) 
+%    {
+%        if (fruit[index] == 'a') 
+%        {
+%            count ++;
+%        }
+%        index++;
+%    }
+%    printf ("%i\n", count);
+%\end{verbatim}
+%%
+%This program demonstrates a common idiom, called a {\bf counter}.  The
+%variable {\tt count} is initialized to zero and then incremented each
+%time we find an {\tt 'a'}.  (To {\bf increment} is to increase by one;
+%it is the opposite of {\bf decrement}.)  When we exit the loop, {\tt count}
+%contains the result: the total number of a's.
+
+%\index{counter}
+
+%As an exercise, encapsulate this code in a function named
+%{\tt CountLetters()}, and generalize it so that it accepts the
+%string and the letter as arguments.
+%% müssen wir die Länge vorher ermitteln und übergeben?
+
+%\index{encapsulation}
+%\index{generalization}
+
+%As a second exercise, rewrite this function so that instead
+%of traversing the string, it uses the version of
+%{\tt find} we wrote in the previous section.
+
+
+%\section{The {\tt strchr} function}
+%\index{find}
+
+%
+
+
+% The {\tt strchr} function is like the opposite of the
+%{\tt []} operator.  Instead of taking an index and extracting the
+%character at that index, {\tt strchr} takes a character and finds the
+%index where that character appears.
+
+%\begin{verbatim}
+%  char fruit[] = "banana";
+%  int index = strchar(fruit,'a'));
+%\end{verbatim}
+%%
+%This example finds the index of the letter {\tt 'a'} in the string.
+%In this case, the letter appears three times, so it is not obvious
+%what {\tt find} should do.  According to the documentation, it returns
+%the index of the {\em first} appearance, so the result is 1.  If the
+%given letter does not appear in the string, {\tt find} returns -1.
+
+%In addition, there is a 
+%version of {\tt find} that takes another {\tt string} as
+%an argument and that finds the index where the substring
+%appears in the string.  For example,
+
+%\begin{verbatim}
+%  apstring fruit = "banana";
+%  int index = fruit.find("nan");
+%\end{verbatim}
+%%
+%This example returns the value 2.
+
+
+
+
+%%
+%\pagebreak[4]
+
+\section{String concatenation}
+
+In Section~\ref{Finding a  character in a string} we have seen how we
+could implement a search function that finds a {\tt character} in a {\tt string}.
+
+One useful operation on strings is string {\bf concatenation}.  
+To concatenate means to
+join the two operands end to end.  For example:  {\tt shoe}
+and {\tt maker} becomes {\tt shoemaker}.
+
+Fortunately, we do not have to program all the necessary functions in C ourselves.
+The {\tt string.h} library already provides several functions that we can
+invoke on strings. 
+
+We can use the library function {\tt strncat()} to concatenate
+strings in C. 
+
+\begin{verbatim}
+    char fruit[20] = "banana";
+    char bakedGood[] = " nut bread";
+    strncat(fruit, bakedGood, 10);
+    printf ("%s\n", fruit);
+\end{verbatim}
+%
+The output of this program is {\tt banana nut bread}.
+
+When we are using library functions it is important to completely understand
+all the necessary arguments and to have a complete understanding
+of the working of the function. 
+
+The {\tt strncat()} does not take the two strings, joins them together and
+produces a new combined string. It rather copies the content from the second
+argument into the first. 
+
+We therefore have to make sure that our first string is long enough to 
+also hold the second string. We do this by defining the maximum capacity for 
+string {\tt fruit} to be 19 characters + 1 termination character ({\tt char fruit[20]}). 
+The third argument of {\tt strncat()}  specifies 
+the number of characters
+that will be copied from the second into the first string.
+
+
+
+%It is also possible to concatenate a character onto the
+%beginning or end of an {\tt string}.  In the following example, we
+%will use concatenation and character arithmetic to output
+%an abecedarian series.
+
+%``Abecedarian'' refers to a series or list in which the elements
+%appear in alphabetical order.  For example, in Robert McCloskey's book
+%{\em Make Way for Ducklings}, the names of the ducklings are Jack,
+%Kack, Lack, Mack, Nack, Ouack, Pack and Quack.  Here is a loop that
+%outputs these names in order:
+
+%\begin{verbatim}
+%    char name[5];
+%    char suffix[] = "ack";
+
+%    char letter = 'J';
+%    name[0] = letter;
+%    name[1] = '\0';
+%    
+%    while (letter <= 'Q') 
+%    {
+%	/* Wrong, does not work, string gets longer and longer...*/        
+%        printf("%s\n", strncat (name, suffix, 3));
+%        letter++;
+%        name[0] = letter;
+%    }
+%\end{verbatim}
+%%
+%The output of this program is:
+
+%\begin{verbatim}
+%Jack
+%Kack
+%Lack
+%Mack
+%Nack
+%Oack
+%Pack
+%Qack
+%\end{verbatim}
+%%
+%Of course, that's not quite right because I've misspelled ``Ouack''
+%and ``Quack.''  As an exercise, modify the program to correct
+%this error.
+
+%Again, be careful to use string concatenation only with {\tt apstring}s
+%and not with native C strings.  Unfortunately, an expression like
+%{\tt letter + "ack"} is syntactically legal in C++, although it
+%produces a very strange result, at least in my development environment.
+
+%%
+%\section{{\tt string}s are mutable}
+%\index{immutable}
+%\index{string}
+
+%You can change the letters in an {\tt string} one at a time
+%using the {\tt []} operator on the left side of an assignment.
+%For example,
+
+%\begin{verbatim}
+%    char greeting[] = "Hello, world!";
+%    greeting[0] = 'J';
+%    printf ("%s", greeting);
+%\end{verbatim}
+%
+%produces the output {\tt Jello, world!}.
+
+\section{Assigning new values to {\tt string} variables}
+\index{assigning!string}
+\index{string}
+
+So far we have seen how to initialise a string variable 
+at declaration time. As with arrays in general, it is not 
+legal to assign values directly to strings, because it is
+not  possible to assign a value to an entire array.
+
+\begin{verbatim}
+    fruit = "orange";  /* Wrong: Cannot assign directly! */
+\end{verbatim}
+
+In order to assign a new value to an existing string variable we
+have to use the {\tt strncpy()} function.
+For example,
+
+\begin{verbatim}
+    char greeting[15];
+    strncpy (greeting, "Hello, world!", 13);
+\end{verbatim}
+
+copies 13 characters from the of the second argument 
+string to the first argument string.
+
+This works, but not quite as expected. The {\tt strncpy()} function
+copies exactly 13 characters from the second argument string
+into the first argument string. And what happens to our 
+string termination character  {\tt \textbackslash 0}?
+
+%\pagebreak[4]
+
+It is \textbf{not} copied automatically. We need to change
+our copy statement to copy also the invisible 14th character at
+the end of the string:
+
+\begin{verbatim}
+    strncpy (greeting, "Hello, world!", 14);
+\end{verbatim}
+
+However, if we only copy parts of the second string into the first
+we need to explicitly set the n+1th character in the {\tt greeting[15]}
+string to {\tt \textbackslash 0} afterwards.
+
+\begin{verbatim}
+    strncpy (greeting, "Hello, world!", 5); /*only Hello is copied*/
+    greeting[5] = '\0';
+\end{verbatim}
+
+\vskip 1.5em
+
+{\bf Attention!} In the last two sections we have used
+the {\tt strncpy()} and the {\tt strncat()} function that require you
+to explicitly supply the number of characters that will get copied
+or attached to the first argument string. 
+
+The {\tt string.h} library also defines the {\tt strcpy()} and 
+the {\tt strcat()} functions that have no explicit bound on the number
+of characters that are copied. 
+
+The usage of these functions is
+strongly discouraged! Their use has lead to a vast number
+of security problems with C programs. Remember, C does not
+check array boundaries and will continue copying characters
+into computer memory even past the length of the variable.
+
+
+%%
+\section{{\tt string}s are not comparable}
+\label{incomparable}
+\index{comparison!string}
+\index{string}
+
+All the comparison operators that work on {\tt int}s and
+{\tt double}s do work on {\tt strings}.  For example,
+if you write the following code to determine if two strings are equal:
+
+\begin{verbatim}
+    if (word == "banana")  /* Wrong! */ 
+\end{verbatim}
+
+This test will always fail.
+
+%
+You have to use the {\tt strcmp()} function to compare two strings
+with each other. The function returns {\tt 0} if the two strings are 
+identical, a negative value if the first string is 'alphabetically less' than
+the second (would be listed first in a dictionary) or a positive value
+if the second string is 'greater'.
+
+Please notice, this return value is not the standard true/false result, where the
+return value {\tt 0}  is interpreted as 'false'.
+
+
+
+The  {\tt strcmp()} function is useful for putting words
+in alphabetical order.
+
+\begin{verbatim}
+    if (strcmp(word, "banana") < 0) 
+    {
+        printf( "Your word, %s, comes before banana.\n", word);
+    } 
+    else if (strcmp(word, "banana") > 0) 
+    {
+        printf( "Your word, %s, comes after banana.\n", word);
+    } 
+    else 
+    {
+        printf ("Yes, we have no bananas!\n");
+    }
+\end{verbatim}
+%
+You should be aware, though, that the {\tt strcmp()} function does
+not handle upper and lower case letters the same way that people
+do.  All the upper case letters come before all the lower case
+letters.  As a result,
+
+\begin{verbatim}
+Your word, Zebra, comes before banana.
+\end{verbatim}
+%
+A common way to address this problem is to convert strings to a
+standard format, like all lower-case, before performing the
+comparison.  The next sections explains how. 
+
+%%
+\section{Character classification}
+
+\index{<ctype.h>}
+\index{header file!ctype.h}
+It is often useful to examine a character and test whether
+it is upper or lower case, or whether it is a character or
+a digit.  C provides a library of functions that perform
+this kind of character classification.  In order to use these
+functions, you have to include the header file {\tt ctype.h}.
+
+\begin{verbatim}
+    char letter = 'a';
+    if (isalpha(letter)) 
+    {
+        printf("The character %c is a letter.", letter);
+    }
+\end{verbatim}
+%
+The return value from {\tt isalpha()} is an integer that is
+0 if the argument is not a letter, and some non-zero value
+if it is.
+
+It is legal to use this kind of integer in a conditional, as shown
+in the example.  The value {\tt 0} is treated as {\tt false}, and
+all non-zero values are treated as {\tt true}.
+
+%Technically, this sort of thing should not be allowed---integers are
+%not the same thing as boolean values.  Nevertheless, the C habit of
+%converting automatically between types can be useful.
+
+Other character classification functions include {\tt isdigit()}, which
+identifies the digits 0 through 9, and {\tt isspace()}, which identifies
+all kinds of ``white'' space, including spaces, tabs, newlines, and a
+few others.  There are also {\tt isupper()} and {\tt islower()}, which
+distinguish upper and lower case letters.
+
+Finally, there are two functions that convert letters from one
+case to the other, called {\tt toupper()} and {\tt tolower()}.  Both take
+a single character as an argument and return a (possibly
+converted) character.
+
+\begin{verbatim}
+    char letter = 'a';
+    letter = toupper (letter);
+    printf("%c\n", letter);
+\end{verbatim}
+%
+The output of this code is {\tt A}.
+
+As an exercise, use the character classification and conversion
+library to write functions named {\tt StringToUpper()} and
+{\tt StringToLower()} that take a single string as
+a parameter, and that modify the string by converting all the
+letters to upper or lower case.  The return type should be
+{\tt void}.
+
+%%%
+%\section{Other {\tt string} functions}
+
+%This chapter does not cover all the {\tt apstring} functions.
+%Two additional ones, {\tt c\_str} and {\tt substr}, are covered
+%in Section~\ref{finput} and Section~\ref{parsing}.
+
+\section{Getting user input}
+\label{input}
+\index{input!keyboard}
+
+The programs we have written so far are pretty predictable;
+they do the same thing every time they run.  Most of the time,
+though, we want programs that take input from the user and
+respond accordingly.
+
+There are many ways to get input, including keyboard
+input, mouse movements and button clicks, as well as more exotic
+mechanisms like voice control and retinal scanning.  In this
+text we will consider only keyboard input.
+
+\index{scanf()}
+\index{printf()}
+
+In the header file {\tt stdio.h},
+C defines a function named {\tt scanf()} that handles input in
+much the same way that {\tt printf()} handles output.  We can use the following code to get an
+integer value from the user:
+
+\begin{verbatim}
+    int x;
+    scanf("%i", &x);
+\end{verbatim}
+%
+The {\tt scanf()} function causes the program to stop executing and
+wait for the user to type something.  If the user types a valid
+integer, the program converts it into an integer value and
+stores it in {\tt x}.
+
+If the user types something other than an integer,
+C doesn't report an error, or anything sensible like that.
+Instead, the {\tt scanf()} function returns and leaves the value in {\tt x} unchanged.
+
+Fortunately, there is a way to check and see if an input
+statement succeeds.  The {\tt scanf()} function returns the number
+of items that have been successfully read.
+This number will be {\tt 1} when the last input
+statement succeeded.  If not, we know that some previous operation
+failed, and also that the next operation will fail.
+
+Getting input from the user might look like this:
+
+\begin{verbatim}
+    int main (void)
+    {
+        int success, x;
+
+        /* prompt the user for input */
+        printf ("Enter an integer: \n");
+
+        /* get input */
+        success = scanf("%i", &x);
+
+        /* check and see if the input statement succeeded */
+        if (success == 1) 
+        {
+            /* print the value we got from the user */
+            printf ("Your input: %i\n", x);
+            return EXIT_SUCCESS;
+        }
+        printf("That was not an integer.\n");
+        return EXIT_FAILURE;
+    }
+\end{verbatim}
+%
+There is another potential pitfall connected with the {\tt scanf()} function.
+Your program code might want to insist that the user types a valid integer, because
+this value is needed later on. In this case you might want to 
+repeat the input statement in order to get a valid user input:
+ 
+ \begin{verbatim}
+    if (success != 1) 
+    {
+          while (success != 1)                                      
+          { 
+               printf("That was not a number. Please try again:\n");
+               success = scanf("%i", &x);
+          }  
+     }
+\end{verbatim}
+
+\index{input!flushing the buffer}
+\index{input buffer!flushing the buffer}
+Unfortunately this code leads into an endless loop. You probably ask yourself, why?
+The input from the keyboard is delivered to your program by the operating system, in 
+something called an input buffer. A successful read operation automatically empties this buffer.
+However, if the {\tt scanf()} function fails, like in our example, the buffer does not get emptied
+and the next {\tt scanf()} operation re-reads the old value - you see the problem?
+
+We need to empty the input buffer, before we can attempt to read the next input from the
+user. Since there is no standard way to do this, we will introduce our own code that 
+reads and empties the buffer using the {\tt getchar()} function. It run through a  {\tt while}-loop 
+until there are no more characters left in the buffer (notice the construction of this loop, where all
+the operations are executed in the test condition):
+\begin{verbatim}
+      char ch;    /* helper variable stores discarded chars*/
+      while (success != 1)                                      
+      { 
+          printf("That isn't a number. Please try again:\n");
+           /* now we empty the input buffer*/
+           while ((ch = getchar()) != '\n' && ch != EOF);
+           success = scanf("%i", &x);
+      }    
+
+\end{verbatim}
+ 
+
+The {\tt scanf()} function can also be used to input a {\tt string}:
+
+\begin{verbatim}
+    char name[80];
+
+    printf ("What is your name?");
+    scanf ("%s", name);
+    printf ("%s", name);
+\end{verbatim}
+%
+Again, we have to make sure our string variable is large enough
+to contain the complete user input. Notice the difference in the
+argument of the {\tt scanf()} function when we are reading 
+an {\tt integer} or a {\tt string}. The function requires a
+pointer to the variable where the input value will be stored.
+If we are reading an {\tt integer} we need to use the address operator {\tt \&}
+with the variable name. In the case of a {\tt string} we simply provide the 
+variable name.
+
+Also notice, that the {\tt scanf()} function only takes the first word of
+the input, and leaves the rest for the next input statement.
+So, if you run this program and type your full name, it
+will only output your first name.
+
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[index:]  A variable or value used to select one of the
+members of an ordered set, like a character from a string.
+
+\item[traverse:]  To iterate through all the elements of a set
+performing a similar operation on each.
+
+\item[counter:]  A variable used to count something, usually
+initialized to zero and then incremented.
+
+\item[concatenate:] To join two operands end-to-end.
+
+\item[pointer:] A reference to an object in computer memory.
+
+\item[address:] The exact storage location of objects in memory.
+
+\index{index}
+\index{traverse}
+\index{counter}
+\index{increment}
+\index{decrement}
+\index{concatenate}
+\index{pointer}
+\index{address}
+
+
+\end{description}
+
+\section{Exercises}
+\setcounter{exercisenum}{0}
+
+
+\input{exercises/Exercise_8_english}
+

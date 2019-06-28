@@ -1,0 +1,204 @@
+% LaTeX source for textbook ``How to think like a computer scientist''
+% Copyright (C) 1999  Allen B. Downey
+% Copyright (C) 2009  Thomas Scheffler
+
+
+\begin{exercise}
+This exercise reviews the flow of execution through a program
+with multiple methods.  Read the following code and answer the
+questions below.
+
+\begin{verbatim}
+
+   #include <stdio.h>
+   #include <stdlib.h>
+
+   void Zippo (int quince, int flag);
+
+   void Baffle (int output)
+    {
+       printf ("%i\n",output);
+       Zippo (12, -5);
+     }
+ 
+    void Zippo (int quince, int flag)
+    {
+       if (flag < 0)
+       {
+             printf ("%i zoop\n", quince);
+       }
+       else
+       {
+          printf ("rattle ");
+          Baffle (quince);
+          printf ("boo-wa-ha-ha\n");
+         }
+     }
+ 
+     int main (void)
+     {
+         Zippo (5, 13);
+         return EXIT_SUCCESS;
+     }
+
+
+\end{verbatim}
+
+\begin{enumerate}
+
+\item Write the number {\tt 1} next to the first {\em statement}
+of this program that will be executed.  Be careful to distinguish
+things that are statements from things that are not.
+
+\item Write the number {\tt 2} next to the second statement, and so on
+until the end of the program.  If a statement is executed more than
+once, it might end up with more than one number next to it.
+
+\item What is the value of the parameter {\tt blimp} when {\tt baffle()}
+gets invoked?
+
+\item What is the output of this program?
+
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}
+The first verse of the song ``99 Bottles of Beer'' is:
+
+\begin{quote}
+99 bottles of beer on the wall,
+99 bottles of beer,
+ya' take one down, ya' pass it around,
+98 bottles of beer on the wall.
+\end{quote}
+
+Subsequent verses are identical except that the number
+of bottles gets smaller by one in each verse, until the
+last verse:
+
+\begin{quote}
+No bottles of beer on the wall,
+no bottles of beer,
+ya' can't take one down, ya' can't pass it around,
+'cause there are no more bottles of beer on the wall!
+\end{quote}
+%
+And then the song (finally) ends.
+
+Write a program that prints the entire lyrics of
+``99 Bottles of Beer.''  Your program should include a
+recursive method that does the hard part, but you also
+might want to write additional methods to separate the major
+functions of the program.
+
+As you are developing your code, you will probably
+want to test it with a small number of verses, like
+``3 Bottles of Beer.''
+
+The purpose of this exercise is to take a problem and break it
+into smaller problems, and to solve the smaller problems by writing
+simple, easily-debugged methods.
+\end{exercise}
+
+
+\begin{exercise}
+You can use the  {\tt getchar()} function in C to
+get character input from the user through the keyboard.
+This function stops the execution of the program and waits
+for the input from the user. 
+
+The {\tt getchar()} function has the type {\tt int} and does
+not require an argument. It returns the ASCII-Code (cf. Appendix~\ref{ASCII-Table})
+of the key that has been pressed on the keyboard.
+\begin{enumerate}
+\item Write a program, that asks the user 
+to input a digit between  0 and 9. 
+
+\item Test the input from the user and display an error message 
+if the returned value is not a digit. The program should then
+be terminated.
+If the test is successful, the program should print the 
+input value on the computer screen.
+\end{enumerate}
+
+
+\end{exercise}
+
+% Kapitel 5 (Return)
+%Schreiben Sie dazu eine Funktion {\tt AsciiToNumber()} welche ein
+%{\tt int} als Typ und als Argument besitzt. Übergeben Sie der Funktion
+%den eingelesenen Wert und 
+
+
+
+
+% String--Ausgabe!
+
+%\begin{exercise}
+%Lesen Sie das folgende Programm. Notieren Sie die Ausgabe die während der
+%Abarbeitung des Programms erzeugt wird.
+
+%\begin{verbatim}
+%  void Zoop (String fred, int bob) 
+%  {
+%        printf ("%s\n", fred);
+%        if (bob == 5) 
+%        {
+%            ping ("not ");
+%        } 
+%        else 
+%        {
+%            printf ("!\n");
+%        }
+%    }
+
+%  int main (void) 
+%  {
+%        int bizz = 5;
+%        int buzz = 2;
+%        zoop ("just for", bizz);
+%        clink (2*buzz);
+%    }
+
+%  void clink (int fork) 
+%  {
+%        printf ("It's ");
+%        zoop ("breakfast ", fork) ;
+%  }
+
+%  void ping (String strangStrung) 
+%  {
+%        printf ("any %smore \n", strangStrung);
+%    }
+%}
+%\end{verbatim}
+%\end{exercise}
+
+\begin{exercise}
+Fermat's Last Theorem says that there are no integers
+$a$, $b$, and $c$ such that
+
+\[a^n + b^n = c^n \]
+%
+except in the case when $n=2$.
+
+Write a function named {\tt checkFermat()} that takes four
+integers as parameters---{\tt a}, {\tt b}, {\tt c} and {\tt n}---and
+that checks to see if Fermat's theorem holds.  If
+$n$ is greater than 2 and it turns out to be true that 
+$a^n + b^n = c^n$,
+the program should print ``Holy smokes, Fermat was wrong!''
+Otherwise the program should print ``No, that doesn't work.''
+
+You should assume that there is a function named {\tt raiseToPow()}
+that takes two integers as arguments and that raises the
+first argument to the power of the second.  For example:
+
+\begin{verbatim}
+    int x = raiseToPow (2, 3);
+\end{verbatim}
+%
+would assign the value {\tt 8} to {\tt x}, because $2^3 = 8$.
+\end{exercise}
+

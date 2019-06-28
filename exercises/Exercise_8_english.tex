@@ -1,0 +1,122 @@
+% LaTeX source for textbook ``How to think like a computer scientist''
+% Copyright (C) 1999  Allen B. Downey
+% Copyright (C) 2009  Thomas Scheffler
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{exercise}
+A word is said to be ``abecedarian'' if the letters in the
+word appear in alphabetical order.  For example, the following
+are all 6-letter English abecedarian words.
+
+\begin {quote}
+abdest, acknow, acorsy, adempt, adipsy, agnosy, befist, behint,
+beknow, bijoux, biopsy, cestuy, chintz, deflux, dehors, dehort,
+deinos, diluvy, dimpsy
+\end{quote}
+
+\begin{enumerate}
+
+\item Describe an algorithm for checking whether a given word (String)
+is abecedarian, assuming that the word contains only lower-case
+letters.  Your algorithm can be iterative or recursive.
+
+\item Implement your algorithm in a function called {\tt IsAbecedarian()}.
+
+\end{enumerate}
+\end{exercise}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{exercise}
+Write a function called {\tt LetterHist()} that takes a String as a
+parameter and that returns a histogram of the letters in the String.
+The zeroeth element of the histogram should contain the number of a's
+in the String (upper and lower case); the 25th element should contain
+the number of z's.
+Your solution should only traverse the String once.
+\end{exercise}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{exercise}
+A word is said to be a ``doubloon'' if every letter that appears in the
+word appears exactly twice.  For example, the following are all the
+doubloons I found in my dictionary.
+
+\begin {quote}
+Abba, Anna, appall, appearer, appeases, arraigning, beriberi,
+bilabial, boob, Caucasus, coco, Dada, deed, Emmett, Hannah,
+horseshoer, intestines, Isis, mama, Mimi, murmur, noon, Otto, papa,
+peep, reappear, redder, sees, Shanghaiings, Toto
+\end{quote}
+
+Write a function called {\tt IsDoubloon()} that returns {\tt TRUE}
+if the given word is a doubloon and {\tt FALSE} otherwise.
+\end{exercise}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}
+
+The Captain Crunch decoder ring works by taking each letter in a
+string and adding 13 to it.  For example, 'a' becomes 'n' and 'b'
+becomes 'o'.  The letters ``wrap around'' at the end, so 'z' becomes
+'m'.
+
+\begin{enumerate}
+\item  Write a function that takes a String and that returns a new String
+containing the encoded version.  You should assume that the String
+contains upper and lower case letters, and spaces, but no other
+punctuation.  Lower case letters should be transformed into other lower
+case letters; upper into upper.  You should not encode the spaces.
+
+\item Generalize the Captain Crunch method so that instead of adding
+13 to the letters, it adds any given amount.  Now you should be able
+to encode things by adding 13 and decode them by adding -13.  Try it.
+
+\end{enumerate}
+\end{exercise}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}
+In Scrabble each player has a set of tiles with letters on them, and
+the object of the game is to use those letters to spell words.  The
+scoring system is complicated, but as a rough guide longer words are
+often worth more than shorter words.
+
+Imagine you are given your set of tiles as a String, like {\tt
+"qijibo"} and you are given another String to test, like {\tt "jib"}.
+Write a function called {\tt TestWord()} that takes these two Strings and
+returns true if the set of tiles can be used to spell the word.  You
+might have more than one tile with the same letter, but you can only
+use each tile once.
+\end{exercise}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{exercise}
+In real Scrabble, there are some blank tiles that can be used
+as wild cards; that is, a blank tile can be used to represent
+any letter.
+
+Think of an algorithm for {\tt TestWord()} that deals with wild
+cards.  Don't get bogged down in details of implementation like
+how to represent wild cards.  Just describe the algorithm, using
+English, pseudocode, or C.
+\end{exercise}
+
+
+
+

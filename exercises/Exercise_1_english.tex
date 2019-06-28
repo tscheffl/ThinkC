@@ -1,0 +1,98 @@
+% LaTeX source for textbook ``How to think like a computer scientist''
+% Copyright (C) 1999  Allen B. Downey
+% Copyright (C) 2009  Thomas Scheffler
+
+\begin{exercise}
+
+Computer scientists have the annoying habit of using common
+English words to mean something different from their common
+English meaning.  For example, in English, a statement and
+a comment are pretty much the same thing, but when we are
+talking about a program, they are very different.
+
+The glossary at the end of each chapter is intended to highlight
+words and phrases that have special meanings in computer science.
+When you see familiar words, don't assume that you know what 
+they mean!
+
+\begin{enumerate}
+
+\item In computer jargon, what's the difference between a statement
+and a comment?
+
+\item What does it mean to say that a program is portable?
+
+\item What is an executable?
+
+\end{enumerate}
+
+\end{exercise}
+
+\begin{exercise}
+
+Before you do anything else, find out how to compile and run a C
+program in your environment.  Some environments provide sample programs
+similar to the example in Section~\ref{hello}.
+
+\begin{enumerate}
+
+\item Type in the ``Hello World'' program, then compile and run it.
+
+\item Add a second print statement that prints a second message after
+the ``Hello World.''.  Something witty like, ``How are you?''
+Compile and run the program again.
+
+\item Add a comment line to the program (anywhere) and recompile
+it.  Run the program again.  The new comment should not affect the
+execution of the program.
+
+\end{enumerate}
+
+This exercise may seem trivial, but it is the starting place for many
+of the programs we will work with.  In order to debug with confidence,
+you have to have confidence in your programming environment.  In some
+environments, it is easy to lose track of which program is executing,
+and you might find yourself trying to debug one program while you are
+accidentally executing another.  Adding (and changing) print statements
+is a simple way to establish the connection between the program you
+are looking at and the output when the program runs.
+
+\end{exercise}
+
+
+\begin{exercise}
+
+It is a good idea to commit as many errors as you can think of,
+so that you see what error messages the compiler produces.
+Sometimes the compiler will tell you exactly what is wrong, and all
+you have to do is fix it.  Sometimes, though, the compiler will produce
+wildly misleading messages.  You will develop a sense for when you can
+trust the compiler and when you have to figure things out yourself.
+
+\begin {enumerate}
+
+\item Remove the closing curly-bracket (\}).
+
+\item Remove the opening curly-bracket (\{).
+
+\item Remove the {\tt int} before {\tt main}.
+
+\item Instead of {\tt main}, write {\tt mian}.
+
+\item Remove the closing {\tt */} from a comment.
+
+\item Replace {\tt printf} with {\tt pintf}.
+
+% Example of a logical error:
+%
+%\item Replace {\tt printf} with {\tt print}.  This one is
+%tricky because it is a logical error, not a syntax error.
+%The statement {\tt System.out.print} is legal, but it may or may
+%not do what you expect.
+
+\item Delete one of the parentheses:  {\tt (} or  {\tt )}.  Add an extra one.
+
+\item Delete the semicolon after the {\tt return} statement.
+
+\end {enumerate}
+\end{exercise}

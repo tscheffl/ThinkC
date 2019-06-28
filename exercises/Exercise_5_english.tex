@@ -1,0 +1,241 @@
+% LaTeX source for textbook ``How to think like a computer scientist''
+% Copyright (C) 1999  Allen B. Downey
+% Copyright (C) 2009  Thomas Scheffler
+
+
+\begin{exercise}
+If you are given three sticks, you may or may not be able to arrange
+them in a triangle.  For example, if one of the sticks is 12 inches
+long and the other two are one inch long, it is clear that you will
+not be able to get the short sticks to meet in the middle.  For any
+three lengths, there is a simple test to see if it is possible to form
+a triangle:
+
+\begin{quotation}
+``If any of the three lengths is greater than the sum of the other two,
+then you cannot form a triangle.  Otherwise, you can.''
+\end{quotation}
+
+Write a function named {\tt IsTriangle()} that it takes three integers as
+arguments, and that returns either {\tt TRUE} or {\tt FALSE},
+depending on whether you can or cannot form a triangle from sticks
+with the given lengths.
+
+
+The point of this exercise is to use conditional statements to
+write a function that returns a value.
+\end{exercise}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}
+What is the output of the following program? 
+
+The purpose of this exercise is to make sure you understand logical operators and the flow of execution through fruitful methods.
+
+\begin{verbatim}
+#define TRUE 1
+#define FALSE 0
+
+
+  short IsHoopy (int x)
+   {
+      short hoopyFlag;
+      if (x%2 == 0) 
+      {
+          hoopyFlag = TRUE;
+      } 
+      else 
+      {
+          hoopyFlag = FALSE;
+      }
+      return hoopyFlag;
+  }
+
+  short IsFrabjuous (int x) 
+  {
+      short frabjuousFlag;
+      if (x > 0) 
+      {
+          frabjuousFlag = TRUE;
+      }
+      else 
+      {
+          frabjuousFlag = FALSE;
+      }
+      return frabjuousFlag;
+  }
+  
+  int main (void) 
+  {
+      short flag1 = IsHoopy (202);
+      short flag2 = IsFrabjuous (202);
+      printf ("%i\n", flag1);
+      printf ("%i\n", flag2);
+      if (flag1 && flag2) 
+      {
+          printf ("ping!\n");
+      }
+      if (flag1 || flag2) 
+      {
+          printf ("pong!\n");
+      }
+      return EXIT_SUCCESS;
+  }
+  
+\end{verbatim}
+\end{exercise}
+
+
+
+\begin{exercise}
+\begin{enumerate}
+
+
+\item Create a new program called {\tt Sum.c},
+and type in the following two functions.
+
+\begin{verbatim}
+  int FunctionOne (int m, int n) 
+  {
+      if (m == n) 
+      {
+          return n;
+      } 
+      else 
+      {
+          return m + FunctionOne (m+1, n);
+      }
+  }
+
+  int FunctionTwo (int m, int n) 
+  {
+      if (m == n) 
+      {
+          return n;
+      } 
+      else 
+      {
+          return n * FunctionTwo (m, n-1);
+      }
+  }
+\end{verbatim}
+%
+\item Write a few lines in {\tt main()} to test these functions.
+Invoke them a couple of times, with a few different values,
+and see what you get.  By some combination of testing and
+examination of the code, figure out what these functions do,
+and give them more meaningful names.  Add comments that
+describe their function abstractly.
+
+\item Add a {\tt prinf} statement to the beginning of both
+functions so that they print their arguments each time they are
+invoked.  This is a useful technique for debugging recursive
+programs, since it demonstrates the flow of execution.
+
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+\label{ex.power}
+Write a recursive function called {\tt Power()} that
+takes a double {\tt x} and an integer {\tt n} and that
+returns $x^n$.  
+
+Hint: a recursive definition of this
+operation is {\tt Power (x, n) = x * Power (x, n-1)}.
+Also, remember that anything raised to the zeroeth power
+is 1.
+\end{exercise}
+
+
+\begin{exercise}
+
+\label{gcd}
+(This exercise is based on page 44 of Ableson and Sussman's
+{\em Structure and Interpretation of Computer Programs}.)
+
+The following algorithm is known as Euclid's Algorithm because
+it appears in Euclid's {\em Elements} (Book 7, ca. 300 B.C.).
+It may be the oldest nontrivial algorithm.
+
+The algorithm is based on the observation that, if $r$ is the
+remainder when $a$ is divided by $b$, then the common divisors
+of $a$ and $b$ are the same as the common divisors of $b$ and $r$.
+Thus we can use the equation
+
+\[ gcd (a, b) = gcd (b, r) \]
+
+to successively reduce the problem of computing a GCD to the
+problem of computing the GCD of smaller and smaller pairs of integers.
+For example,
+
+\[ gcd (36, 20) = gcd (20, 16) = gcd (16, 4) = gcd (4, 0) = 4\]
+
+implies that the GCD of 36 and 20 is 4.  It can be shown
+that for any two starting numbers, this repeated reduction eventually
+produces a pair where the second number is 0.  Then the GCD is the
+other number in the pair.
+
+Write a function called {\tt gcd} that takes two integer parameters and
+that uses Euclid's algorithm to compute and return the greatest
+common divisor of the two numbers.
+\end{exercise}
+
+
+
+
+%
+
+\begin{exercise}
+The distance between two points $(x_1, y_1)$ and $(x_2, y_2)$
+is
+
+\[Distance = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2} \]
+
+Please write a function named {\tt Distance()} that takes four
+doubles as parameters---{\tt x1}, {\tt y1}, {\tt x2} and {\tt
+y2}---and that prints the distance between the points.
+
+You should assume that there is a function named {\tt SumSquares()}
+that calculates and returns the sum of the squares of its arguments.
+For example:
+
+\begin{verbatim}
+    double x = SumSquares (3.0, 4.0);
+\end{verbatim}
+%
+would assign the value {\tt 25.0} to {\tt x}.
+
+The point of this exercise is to write a new function that uses an
+existing one.  You should write only one function: {\tt Distance()}.  You
+should not write {\tt SumSquares()} or {\tt main()} and you should not
+invoke {\tt Distance()}.
+\end{exercise}
+
+
+\begin{exercise}
+The point of this exercise is to practice the syntax of fruitful
+functions.
+
+\begin{enumerate}
+
+\item Use your existing solution to Exercise~\ref{ex.multadd} and make sure
+you can still compile and run it.
+
+\item Transform {\tt Multadd()} into a fruitful function, so
+that instead of printing a result, it returns it.
+
+\item Everywhere in the program that {\tt Multadd()} gets
+invoked, change the invocation so that it stores the
+result in a variable and/or prints the result.
+
+\item Transform {\tt Yikes()} in the same way.
+
+\end{enumerate}
+\end{exercise}
+

@@ -1,0 +1,164 @@
+% LaTeX source for textbook ``How to think like a computer scientist''
+% Copyright (C) 1999  Allen B. Downey
+% Copyright (C) 2009  Thomas Scheffler
+
+
+\begin{exercise}
+
+The point of this exercise is to practice reading code and to
+make sure that you understand the flow of execution through
+a program with multiple functions.
+
+\begin{enumerate}
+
+\item What is the output of the following program?  Be precise
+about where there are spaces and where there are newlines.
+
+HINT: Start by describing in words what {\tt Ping()} and
+{\tt Baffle()} do when they are invoked.
+
+\begin{verbatim}
+#include <stdio.h>
+#include <stdlib.h>
+
+ void Ping () 
+ {
+    printf (".\n");
+  }
+
+  void Baffle () 
+  {
+    printf ("wug");
+    Ping ();
+  }
+
+ void Zoop () 
+ {
+    Baffle ();    
+    printf ("You wugga ");
+    Baffle ();
+  }
+
+  int main (void) 
+  {
+    printf ("No, I ");
+    Zoop ();
+    printf ("I ");
+    Baffle ();
+    return EXIT_SUCCESS;
+  }
+\end{verbatim}
+
+
+\item Draw a stack diagram that shows the state of the program
+the first time {\tt Ping()} is invoked.
+
+\end{enumerate}
+
+\end{exercise}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}
+The point of this exercise is to make sure you understand how
+to write and invoke functions that take parameters.
+
+\begin{enumerate}
+
+\item Write the first line of a function named {\tt Zool()} that
+takes three parameters: an {\tt int} and two {\tt char}.
+
+\item Write a line of code that invokes {\tt Zool()}, passing
+as arguments the value {\tt 11}, the letter {\tt a}, and the letter {\tt z}.
+\end{enumerate}
+
+
+\end{exercise}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{exercise}
+
+The purpose of this exercise is to take code from a previous exercise
+and encapsulate it in a function that takes parameters.  You should
+start with a working solution to exercise
+%~\ref{ex.date}.
+
+\begin{enumerate}
+
+\item Write a function called {\tt PrintDateAmerican()}
+that takes the day, month and year as parameters and that
+prints them in American format.
+
+\item Test your function by invoking it from {\tt main()} and passing
+appropriate arguments.  The output should look something like this
+(except that the date might be different):
+%
+\begin{verbatim}
+3/29/2009
+\end{verbatim}
+%
+\item Once you have debugged {\tt PrintDateAmerican()}, write another
+function called {\tt PrintDateEuropean()} that prints the date in
+European format.
+
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{exercise}
+
+\begin{exercise}
+\label{ex.multadd}
+
+Many computations can be expressed concisely using the ``multadd''
+operation, which takes three operands and computes {\tt a*b + c}.  Some
+processors even provide a hardware implementation of this operation for
+floating-point numbers.
+
+\begin{enumerate}
+
+\item Create a new program called {\tt Multadd.c}.
+
+\item Write a function called {\tt Multadd()} that takes three {\tt doubles}
+as parameters and that prints their multadditionization.
+
+\item Write a {\tt main()} function that tests {\tt Multadd()} by invoking it with a
+few simple parameters, like {\tt 1.0, 2.0, 3.0}, and then prints
+the result, which should be {\tt 5.0}.
+
+\item Also in {\tt main()}, use {\tt Multadd()} to compute the
+following value:
+%
+\begin{eqnarray*}
+& \sin \frac{\pi}{4} + \frac{\cos \frac{\pi}{4}}{2} & 
+%\\
+%\\
+%& \log 10 + \log 20 &
+\end{eqnarray*}
+%
+\item Write a function called {\tt Yikes()} that takes a
+double as a parameter and that uses {\tt Multadd()} to calculate
+and print
+%
+\begin{eqnarray*}
+x e^{-x} + \sqrt{1 - e^{-x}}
+\end{eqnarray*}
+%
+HINT: the Math function for raising $e$ to a power is {\tt double exp(double x);}.
+
+\end{enumerate}
+
+In the last part, you get a chance to write a function that invokes
+a function you wrote.  Whenever you do that, it is a good idea to
+test the first function carefully before you start working on the
+second.  Otherwise, you might find yourself debugging two functions
+at the same time, which can be very difficult.
+
+One of the purposes of this exercise is to practice pattern-matching:
+the ability to recognize a specific problem as an instance of a
+general category of problems.
+
+
+
+\end{exercise}
