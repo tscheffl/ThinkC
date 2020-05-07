@@ -1,0 +1,13 @@
+{
+  "domain_content": true, 
+  "domain_data": true, 
+  "domain_software": false, 
+  "family": "Creative Commons", 
+  "id": "CC-BY-NC-4.0", 
+  "od_conformance": "rejected", 
+  "osd_conformance": "not reviewed", 
+  "maintainer": "Creative Commons", 
+  "status": "active", 
+  "title": "Creative Commons Attribution-NonCommercial 4.0", 
+  "url": "https://creativecommons.org/licenses/by-nc/4.0/"
+}
